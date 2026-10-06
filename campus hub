@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NES College | Student Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+/* ================= LOGIN ================= */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #172554, #2563eb);
+    padding: 20px;
+}
+
+.login-box {
+    background: white;
+    width: 100%;
+    max-width: 430px;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 25px 60px rgba(0,0,0,.25);
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #172554;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.login-box h1 {
+    text-align: center;
+    color: #172554;
+    margin-top: 15px;
+}
+
+.login-box .subtitle {
+    text-align: center;
+    color: #64748b;
+    margin: 8px 0 25px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #2563eb;
+}
+
+.login-btn {
+    width: 100%;
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #1d4ed8;
+}
+
+.demo {
+    background: #f8fafc;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.error {
+    color: #dc2626;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ================= APP ================= */
+
+.app {
+    display: none;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #172554;
+    color: white;
+    padding: 20px 15px;
+    z-index: 10;
+}
+
+.brand {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.brand-logo {
+    width: 55px;
+    height: 55px;
+    background: white;
+    color: #172554;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto 10px;
+    font-weight: bold;
+}
+
+.brand h2 {
+    font-size: 20px;
+}
+
+.brand p {
+    font-size: 10px;
+    color: #bfdbfe;
+    margin-top: 5px;
+}
+
+.nav {
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    color: #dbeafe;
+}
+
+.nav:hover,
+.nav.active {
+    background: #2563eb;
+    color: white;
+}
+
+.logout {
+    margin-top: 25px;
+    background: #991b1b;
+}
+
+.logout:hover {
+    background: #b91c1c;
+}
+
+.main {
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 70px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.topbar h1 {
+    color: #172554;
+    font-size: 21px;
+}
+
+.user {
+    color: #475569;
+    font-size: 14px;
+}
+
+.content {
+    padding: 25px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ================= DASHBOARD ================= */
+
+.welcome {
+    background: linear-gradient(135deg,#1e3a8a,#2563eb);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.welcome h2 {
+    margin-bottom: 7px;
+}
+
+.welcome p {
+    color: #dbeafe;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-title {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 27px;
+    font-weight: bold;
+    color: #172554;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    color: #172554;
+    margin-bottom: 15px;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 13px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #f8fafc;
+    color: #334155;
+}
+
+tr:hover td {
+    background: #f8fafc;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 13px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.primary:hover {
+    background: #1d4ed8;
+}
+
+.danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.search {
+    max-width: 300px;
+}
+
+/* ================= BADGES ================= */
+
+.badge {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.blue {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.yellow {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,.6);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 520px;
+    padding: 25px;
+    border-radius: 14px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.close {
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* ================= MOBILE ================= */
+
+.mobile-menu {
+    display: none;
+    background: #172554;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+@media(max-width:1000px) {
+    .stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+}
+
+@media(max-width:500px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .login-box {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+LOGIN
+========================================================= -->
+
+<div class="login-page" id="loginPage">
+
+<div class="login-box">
+
+<div class="logo">NES</div>
+
+<h1>NES COLLEGE</h1>
+
+<p class="subtitle">
+Student Management Portal
+</p>
+
+<form id="loginForm">
+
+<div class="form-group">
+<label>Email</label>
+<input
+type="email"
+id="email"
+placeholder="Enter email"
+required>
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input
+type="password"
+id="password"
+placeholder="Enter password"
+required>
+</div>
+
+<button class="login-btn">
+Login
+</button>
+
+<div class="error" id="error"></div>
+
+</form>
+
+<div class="demo">
+
+<strong>Demo Login</strong>
+
+<br><br>
+
+<strong>Administrator</strong><br>
+Email: admin@nescollege.test<br>
+Password: admin123
+
+<br><br>
+
+<strong>Student</strong><br>
+Email: student@nescollege.test<br>
+Password: student123
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+APPLICATION
+========================================================= -->
+
+<div class="app" id="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+
+<div class="brand-logo">
+NES
+</div>
+
+<h2>NES COLLEGE</h2>
+
+<p>STUDENT MANAGEMENT SYSTEM</p>
+
+</div>
+
+<div class="nav active" data-page="dashboard">
+Dashboard
+</div>
+
+<div class="nav" data-page="students">
+Students
+</div>
+
+<div class="nav" data-page="attendance">
+Attendance
+</div>
+
+<div class="nav" data-page="marks">
+Marks & Results
+</div>
+
+<div class="nav" data-page="timetable">
+Timetable
+</div>
+
+<div class="nav" data-page="assignments">
+Assignments
+</div>
+
+<div class="nav" data-page="notices">
+Notices
+</div>
+
+<div class="nav" data-page="fees">
+Fees
+</div>
+
+<div class="nav logout" id="logout">
+Logout
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;align-items:center;gap:12px">
+
+<button class="mobile-menu" id="mobileMenu">
+☰
+</button>
+
+<h1 id="title">
+NES College Dashboard
+</h1>
+
+</div>
+
+<div class="user" id="userName">
+User
+</div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- =========================================================
+DASHBOARD
+========================================================= -->
+
+<section class="page active" id="dashboard">
+
+<div class="welcome">
+
+<h2>
+Welcome to NES College
+</h2>
+
+<p>
+Student Management and Academic Portal
+</p>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-title">
+Total Students
+</div>
+
+<div class="stat-value"
+id="totalStudents">
+5
+</div>
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+Average Attendance
+</div>
+
+<div class="stat-value">
+88%
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+Average Marks
+</div>
+
+<div class="stat-value">
+79%
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+Pending Fees
+</div>
+
+<div class="stat-value">
+₹62,500
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+Recent Notices
+</h3>
+
+<p style="margin-bottom:12px">
+<strong>Internal Examination</strong><br>
+Internal examinations begin on 15 October.
+</p>
+
+<p style="margin-bottom:12px">
+<strong>Annual Gathering</strong><br>
+Registration is now open.
+</p>
+
+<p>
+<strong>Library</strong><br>
+Library timing extended during examinations.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Students
+</h3>
+
+<p style="margin-bottom:12px">
+<strong>Bhumi</strong> — BCA — 3rd Year
+</p>
+
+<p style="margin-bottom:12px">
+<strong>Agraj</strong> — BCA — 3rd Year
+</p>
+
+<p style="margin-bottom:12px">
+<strong>Rashi</strong> — BBA — 2nd Year
+</p>
+
+<p style="margin-bottom:12px">
+<strong>Abhi</strong> — BCA — 2nd Year
+</p>
+
+<p>
+<strong>Anmol</strong> — B.Com — 1st Year
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+STUDENTS
+========================================================= -->
+
+<section class="page" id="students">
+
+<div class="card">
+
+<div class="toolbar">
+
+<input
+class="search"
+id="search"
+placeholder="Search student...">
+
+<button
+class="btn primary"
+id="addStudent">
++ Add Student
+</button>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Course</th>
+<th>Year</th>
+<th>Attendance</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+ATTENDANCE
+========================================================= -->
+
+<section class="page" id="attendance">
+
+<div class="card">
+
+<h3>Attendance Management</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Student</th>
+<th>Subject</th>
+<th>Date</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="attendanceTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+MARKS
+========================================================= -->
+
+<section class="page" id="marks">
+
+<div class="card">
+
+<h3>Marks & Results</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Student</th>
+<th>Subject</th>
+<th>Internal</th>
+<th>External</th>
+<th>Total</th>
+<th>Grade</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Bhumi</td>
+<td>Web Development</td>
+<td>18/20</td>
+<td>68/80</td>
+<td>86/100</td>
+<td><span class="badge green">A</span></td>
+</tr>
+
+<tr>
+<td>Agraj</td>
+<td>Database Management</td>
+<td>17/20</td>
+<td>64/80</td>
+<td>81/100</td>
+<td><span class="badge green">A</span></td>
+</tr>
+
+<tr>
+<td>Rashi</td>
+<td>Business Management</td>
+<td>16/20</td>
+<td>61/80</td>
+<td>77/100</td>
+<td><span class="badge blue">B+</span></td>
+</tr>
+
+<tr>
+<td>Abhi</td>
+<td>Computer Networks</td>
+<td>15/20</td>
+<td>59/80</td>
+<td>74/100</td>
+<td><span class="badge blue">B+</span></td>
+</tr>
+
+<tr>
+<td>Anmol</td>
+<td>Accounting</td>
+<td>18/20</td>
+<td>65/80</td>
+<td>83/100</td>
+<td><span class="badge green">A</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+TIMETABLE
+========================================================= -->
+
+<section class="page" id="timetable">
+
+<div class="card">
+
+<h3>Weekly Timetable</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Time</th>
+<th>Monday</th>
+<th>Tuesday</th>
+<th>Wednesday</th>
+<th>Thursday</th>
+<th>Friday</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>9:00 - 10:00</td>
+
+<td>Web Development</td>
+<td>DBMS</td>
+<td>Computer Networks</td>
+<td>Software Engineering</td>
+<td>Web Development</td>
+
+</tr>
+
+<tr>
+
+<td>10:00 - 11:00</td>
+
+<td>DBMS</td>
+<td>Computer Networks</td>
+<td>Web Development</td>
+<td>DBMS</td>
+<td>Software Engineering</td>
+
+</tr>
+
+<tr>
+
+<td>11:15 - 12:15</td>
+
+<td>Mathematics</td>
+<td>English</td>
+<td>Mathematics</td>
+<td>English</td>
+<td>Sports</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+ASSIGNMENTS
+========================================================= -->
+
+<section class="page" id="assignments">
+
+<div class="card">
+
+<h3>Assignments</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Subject</th>
+<th>Assignment</th>
+<th>Due Date</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Web Development</td>
+<td>Responsive Website</td>
+<td>10 Oct 2026</td>
+<td><span class="badge yellow">Pending</span></td>
+</tr>
+
+<tr>
+<td>DBMS</td>
+<td>SQL Database Project</td>
+<td>12 Oct 2026</td>
+<td><span class="badge yellow">Pending</span></td>
+</tr>
+
+<tr>
+<td>Networks</td>
+<td>Network Topology</td>
+<td>15 Oct 2026</td>
+<td><span class="badge green">Submitted</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+NOTICES
+========================================================= -->
+
+<section class="page" id="notices">
+
+<div class="card">
+
+<h3>NES College Notices</h3>
+
+<div class="card">
+
+<h3>Internal Examination</h3>
+
+<p>
+Internal examinations will begin from 15 October 2026.
+Students should check their examination timetable.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Annual Gathering</h3>
+
+<p>
+Registration for the annual college gathering is now open.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Library Notice</h3>
+
+<p>
+Library will remain open until 8:00 PM during examinations.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+FEES
+========================================================= -->
+
+<section class="page" id="fees">
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-title">Total Fees</div>
+<div class="stat-value">₹75,000</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Paid</div>
+<div class="stat-value">₹62,500</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Balance</div>
+<div class="stat-value">₹12,500</div>
+</div>
+
+<div class="stat">
+<div class="stat-title">Next Due</div>
+<div class="stat-value">30 Oct</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Payment History</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Student</th>
+<th>Date</th>
+<th>Receipt</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Bhumi</td>
+<td>01 Aug 2026</td>
+<td>NES-001</td>
+<td>₹30,000</td>
+<td><span class="badge green">Paid</span></td>
+</tr>
+
+<tr>
+<td>Agraj</td>
+<td>01 Aug 2026</td>
+<td>NES-002</td>
+<td>₹32,500</td>
+<td><span class="badge green">Paid</span></td>
+</tr>
+
+<tr>
+<td>Rashi</td>
+<td>01 Sep 2026</td>
+<td>NES-003</td>
+<td>₹25,000</td>
+<td><span class="badge green">Paid</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+ADD STUDENT MODAL
+========================================================= -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h2>Add Student</h2>
+
+<button class="close" id="close">
+×
+</button>
+
+</div>
+
+
+<form id="studentForm">
+
+<div class="form-group">
+
+<label>Student ID</label>
+
+<input
+id="sid"
+placeholder="NES006"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Full Name</label>
+
+<input
+id="sname"
+placeholder="Student name"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input
+type="email"
+id="semail"
+placeholder="student@example.com"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Course</label>
+
+<select id="course">
+
+<option>BCA</option>
+<option>BBA</option>
+<option>B.Com</option>
+<option>BCS</option>
+<option>BA</option>
+<option>B.Sc</option>
+<option>MCA</option>
+<option>MBA</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Year</label>
+
+<select id="year">
+
+<option>1st Year</option>
+<option>2nd Year</option>
+<option>3rd Year</option>
+<option>4th Year</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Attendance</label>
+
+<input
+id="attendance"
+type="number"
+min="0"
+max="100"
+value="100"
+required>
+
+</div>
+
+
+<button
+class="btn primary"
+style="width:100%">
+Save Student
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+ACCOUNTS
+========================================================= */
+
+const accounts = {
+
+    "admin@nescollege.test": {
+        password: "admin123",
+        role: "Administrator",
+        name: "NES College Admin"
+    },
+
+    "student@nescollege.test": {
+        password: "student123",
+        role: "Student",
+        name: "Bhumi"
+    }
+
+};
+
+
+/* =========================================================
+LOGIN
+========================================================= */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const error =
+        document.getElementById("error");
+
+    if (
+        accounts[email] &&
+        accounts[email].password === password
+    ) {
+
+        localStorage.setItem(
+            "nesUser",
+            JSON.stringify(accounts[email])
+        );
+
+        showApp(accounts[email]);
+
+    } else {
+
+        error.textContent =
+            "Incorrect email or password.";
+
+    }
+
+});
+
+
+/* =========================================================
+SHOW APP
+========================================================= */
+
+function showApp(user) {
+
+    document.getElementById("loginPage").style.display =
+        "none";
+
+    document.getElementById("app").style.display =
+        "block";
+
+    document.getElementById("userName").textContent =
+        user.name + " • " + user.role;
+
+}
+
+
+/* =========================================================
+AUTO LOGIN
+========================================================= */
+
+const saved =
+    localStorage.getItem("nesUser");
+
+if (saved) {
+
+    showApp(JSON.parse(saved));
+
+}
+
+
+/* =========================================================
+LOGOUT
+========================================================= */
+
+document
+.getElementById("logout")
+.addEventListener("click", function() {
+
+    localStorage.removeItem("nesUser");
+
+    location.reload();
+
+});
+
+
+/* =========================================================
+NAVIGATION
+========================================================= */
+
+const navs =
+    document.querySelectorAll(".nav[data-page]");
+
+const pages =
+    document.querySelectorAll(".page");
+
+const title =
+    document.getElementById("title");
+
+
+const pageTitles = {
+
+    dashboard:
+        "NES College Dashboard",
+
+    students:
+        "Student Management",
+
+    attendance:
+        "Attendance Management",
+
+    marks:
+        "Marks & Results",
+
+    timetable:
+        "Class Timetable",
+
+    assignments:
+        "Assignments",
+
+    notices:
+        "NES College Notices",
+
+    fees:
+        "Fees & Payments"
+
+};
+
+
+navs.forEach(nav => {
+
+    nav.addEventListener("click", function() {
+
+        const page =
+            nav.dataset.page;
+
+        navs.forEach(n =>
+            n.classList.remove("active")
+        );
+
+        nav.classList.add("active");
+
+        pages.forEach(p =>
+            p.classList.remove("active")
+        );
+
+        document
+            .getElementById(page)
+            .classList.add("active");
+
+        title.textContent =
+            pageTitles[page];
+
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
+
+    });
+
+});
+
+
+/* =========================================================
+MOBILE MENU
+========================================================= */
+
+document
+.getElementById("mobileMenu")
+.addEventListener("click", function() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+});
+
+
+/* =========================================================
+STUDENT DATA
+========================================================= */
+
+let students =
+    JSON.parse(
+        localStorage.getItem("nesStudents")
+    ) || [
+
+        {
+            id: "NES001",
+            name: "Bhumi",
+            email: "bhumi@nescollege.test",
+            course: "BCA",
+            year: "3rd Year",
+            attendance: 91
+        },
+
+        {
+            id: "NES002",
+            name: "Agraj",
+            email: "agraj@nescollege.test",
+            course: "BCA",
+            year: "3rd Year",
+            attendance: 88
+        },
+
+        {
+            id: "NES003",
+            name: "Rashi",
+            email: "rashi@nescollege.test",
+            course: "BBA",
+            year: "2nd Year",
+            attendance: 86
+        },
+
+        {
+            id: "NES004",
+            name: "Abhi",
+            email: "abhi@nescollege.test",
+            course: "BCA",
+            year: "2nd Year",
+            attendance: 84
+        },
+
+        {
+            id: "NES005",
+            name: "Anmol",
+            email: "anmol@nescollege.test",
+            course: "B.Com",
+            year: "1st Year",
+            attendance: 92
+        }
+
+    ];
+
+
+function saveStudents() {
+
+    localStorage.setItem(
+        "nesStudents",
+        JSON.stringify(students)
+    );
+
+}
+
+
+/* =========================================================
+RENDER STUDENTS
+========================================================= */
+
+function renderStudents(searchText = "") {
+
+    const table =
+        document.getElementById("studentTable");
+
+    table.innerHTML = "";
+
+    const filtered =
+        students.filter(student => {
+
+            const text =
+                (
+                    student.id +
+                    " " +
+                    student.name +
+                    " " +
+                    student.email +
+                    " " +
+                    student.course
+                ).toLowerCase();
+
+            return text.includes(
+                searchText.toLowerCase()
+            );
+
+        });
+
+
+    filtered.forEach(student => {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${student.id}</td>
+
+            <td>
+                <strong>${student.name}</strong>
+            </td>
+
+            <td>${student.email}</td>
+
+            <td>${student.course}</td>
+
+            <td>${student.year}</td>
+
+            <td>
+                <span class="badge green">
+                    ${student.attendance}%
+                </span>
+            </td>
+
+            <td>
+                <button
+                    class="btn danger"
+                    onclick="deleteStudent('${student.id}')">
+                    Delete
+                </button>
+            </td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+
+    document.getElementById("totalStudents")
+        .textContent = students.length;
+
+}
+
+
+renderStudents();
+
+
+/* =========================================================
+SEARCH
+========================================================= */
+
+document
+.getElementById("search")
+.addEventListener("input", function() {
+
+    renderStudents(this.value);
+
+});
+
+
+/* =========================================================
+DELETE
+========================================================= */
+
+function deleteStudent(id) {
+
+    if (
+        !confirm(
+            "Delete this student from NES College?"
+        )
+    ) {
+        return;
+    }
+
+    students =
+        students.filter(
+            student => student.id !== id
+        );
+
+    saveStudents();
+
+    renderStudents();
+
+}
+
+
+/* =========================================================
+MODAL
+========================================================= */
+
+const modal =
+    document.getElementById("modal");
+
+
+document
+.getElementById("addStudent")
+.addEventListener("click", function() {
+
+    modal.classList.add("show");
+
+});
+
+
+document
+.getElementById("close")
+.addEventListener("click", function() {
+
+    modal.classList.remove("show");
+
+});
+
+
+window.addEventListener("click", function(e) {
+
+    if (e.target === modal) {
+
+        modal.classList.remove("show");
+
+    }
+
+});
+
+
+/* =========================================================
+ADD STUDENT
+========================================================= */
+
+document
+.getElementById("studentForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+
+    const id =
+        document.getElementById("sid")
+        .value.trim();
+
+
+    if (
+        students.some(student =>
+            student.id === id
+        )
+    ) {
+
+        alert(
+            "This Student ID already exists."
+        );
+
+        return;
+
+    }
+
+
+    const newStudent = {
+
+        id: id,
+
+        name:
+            document
+            .getElementById("sname")
+            .value.trim(),
+
+        email:
+            document
+            .getElementById("semail")
+            .value.trim(),
+
+        course:
+            document
+            .getElementById("course")
+            .value,
+
+        year:
+            document
+            .getElementById("year")
+            .value,
+
+        attendance:
+            Number(
+                document
+                .getElementById("attendance")
+                .value
+            )
+
+    };
+
+
+    students.push(newStudent);
+
+    saveStudents();
+
+    renderStudents();
+
+    this.reset();
+
+    modal.classList.remove("show");
+
+
+    alert(
+        newStudent.name +
+        " has been added to NES College."
+    );
+
+});
+
+
+/* =========================================================
+ATTENDANCE
+========================================================= */
+
+const attendanceRecords = [
+
+    ["Bhumi","Web Development","06 Oct 2026","Present"],
+    ["Agraj","DBMS","06 Oct 2026","Present"],
+    ["Rashi","Business Management","06 Oct 2026","Absent"],
+    ["Abhi","Computer Networks","06 Oct 2026","Present"],
+    ["Anmol","Accounting","06 Oct 2026","Present"]
+
+];
+
+
+function renderAttendance() {
+
+    const table =
+        document.getElementById(
+            "attendanceTable"
+        );
+
+    table.innerHTML = "";
+
+
+    attendanceRecords.forEach(
+        (record,index) => {
+
+            const row =
+                document.createElement("tr");
+
+            const present =
+                record[3] === "Present";
+
+
+            row.innerHTML = `
+
+                <td>${record[0]}</td>
+
+                <td>${record[1]}</td>
+
+                <td>${record[2]}</td>
+
+                <td>
+                    <span
+                        class="badge ${
+                            present
+                            ? "green"
+                            : "red"
+                        }"
+                        id="status-${index}">
+                        ${record[3]}
+                    </span>
+                </td>
+
+                <td>
+                    <button
+                        class="btn ${
+                            present
+                            ? "danger"
+                            : "success"
+                        }"
+                        onclick="toggleAttendance(${index})"
+                        id="attendanceBtn-${index}">
+                        ${
+                            present
+                            ? "Mark Absent"
+                            : "Mark Present"
+                        }
+                    </button>
+                </td>
+
+            `;
+
+            table.appendChild(row);
+
+        }
+    );
+
+}
+
+
+function toggleAttendance(index) {
+
+    attendanceRecords[index][3] =
+        attendanceRecords[index][3] === "Present"
+        ? "Absent"
+        : "Present";
+
+    renderAttendance();
+
+}
+
+
+renderAttendance();
+
+</script>
+
+</body>
+</html>
